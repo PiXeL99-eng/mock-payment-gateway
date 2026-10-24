@@ -13,6 +13,7 @@ Stateless Spring Boot service that simulates an external payment processor for t
   - remainder `2`: waits about 10 seconds, then returns `APPROVED`
 
 The delay is intentional so the Payment Platform's shorter HTTP timeout can be tested.
+Its duration is configured with `gateway.timeout-delay-ms`, which defaults to `10000` milliseconds.
 
 ## Prerequisites
 

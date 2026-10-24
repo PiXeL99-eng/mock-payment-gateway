@@ -2,6 +2,7 @@ package com.sayantan.mock_payment_gateway.service;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.sayantan.mock_payment_gateway.model.GatewayPaymentRequest;
@@ -10,6 +11,15 @@ import com.sayantan.mock_payment_gateway.model.GatewayPaymentStatus;
 
 @Service 
 public class GatewayPaymentService {
+
+    private final long timeoutDelayMillis;
+
+    public GatewayPaymentService(
+        @Value("${gateway.timeout-delay-ms:10000}") long timeoutDelayMillis
+    ) {
+        this.timeoutDelayMillis = timeoutDelayMillis;
+    }
+
     public GatewayPaymentResponse processPayment(GatewayPaymentRequest request) {
         long outcome = request.paymentId() % 3;
 
@@ -34,7 +44,7 @@ public class GatewayPaymentService {
 
     private void sleepForTimeoutScenario() {
         try {
-            Thread.sleep(10_000);
+            Thread.sleep(timeoutDelayMillis);
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
